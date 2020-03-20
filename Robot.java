@@ -1,7 +1,7 @@
 package CA4006;
 import CA4006.Generator;
 
-public class Robot {
+public class Robot implements  Runnable{
 	private final Double maxCapacity =1320.0;
 	
 	private Integer robotID;
@@ -30,5 +30,8 @@ public class Robot {
 		return capacity;
 	}
 
+	public void run() {
+		System.out.println("Robot name "+this.robotID+" in Thread"+Thread.currentThread().getName());
+	}
 
 }
