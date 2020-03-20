@@ -30,6 +30,10 @@ public class Robot implements Runnable {
 		this.workingAircraft = aircraft;
 	}
 	
+	public void getTask() {
+		
+	}
+	
 	public Integer workingAircraft() {
 		return workingAircraft;
 	}
@@ -51,6 +55,7 @@ public class Robot implements Runnable {
 	}
 
 	public void run() {
+		getTask();
 		System.out.println("Robot name " + this.robotID + " in Thread" + Thread.currentThread().getName());
 	}
 

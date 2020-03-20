@@ -1,12 +1,10 @@
 package CA4006;
 
-import java.awt.List;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.LinkedList; 
+import java.util.Queue;
 
 import CA4006.Generator;
 
@@ -17,9 +15,10 @@ public class Workplan implements Runnable {
 	
 	public Workplan(Integer numTask) {
 		this.numTask= numTask;
+		generateTask();
 	}
 	
-	public synchronized void generateTask() {
+	public void generateTask() {
 		int[][] temp = new int[numTask][];
 		for (int i = 0; i < numTask; i++) {
 			temp[i] = singleTask();
@@ -41,7 +40,6 @@ public class Workplan implements Runnable {
 	}
 
 	public void run() {
-		generateTask();
 		System.out.println("This is workplan in Thread " + Thread.currentThread().getName());
 	}
 
