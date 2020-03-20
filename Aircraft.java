@@ -16,7 +16,7 @@ public class Aircraft implements Runnable{
 	private boolean[] productionLine;
 
 	public Aircraft (boolean[] occupiedRobot) {
-		this.aircraftID = Generator.generateID();
+		this.aircraftID = Generator.generateAircraftID();
 		this.arrivalTime = Generator.generateArrivalTime();
 		this.arrivalRobot = Generator.generateRobot(occupiedRobot);
 		boolean[] temp;
