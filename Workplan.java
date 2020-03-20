@@ -1,4 +1,7 @@
 package CA4006;
+
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Queue;
@@ -8,22 +11,25 @@ import java.util.concurrent.locks.ReentrantLock;
 import CA4006.Generator;
 
 public class Workplan implements Runnable {
-	
+
 	private int[][] tasks;
-	private Queue<Map<Robot,ReentrantLock>> taskQueue;
+	private Integer numTask;
 	
 	public Workplan(Integer numTask) {
+		this.numTask= numTask;
+	}
+	
+	public synchronized void generateTask() {
 		int[][] temp = new int[numTask][];
 		for (int i = 0; i < numTask; i++) {
-			temp[i]= singleTask();	 
+			temp[i] = singleTask();
 		}
 		this.tasks = temp;
 	}
-	
+
 	public int[][] getTasks() {
 		return tasks;
 	}
-	
 
 	public int[] singleTask() {
 		int[] arr = new int[3];
@@ -31,11 +37,12 @@ public class Workplan implements Runnable {
 		arr[1] = Generator.generateNumParts();
 		arr[2] = Generator.generateAircraftID();
 		System.out.println(Arrays.toString(arr));
-  		return arr;
+		return arr;
 	}
-	
+
 	public void run() {
-		System.out.println("This is workplan in Thread "+Thread.currentThread().getName());
+		generateTask();
+		System.out.println("This is workplan in Thread " + Thread.currentThread().getName());
 	}
-	
+
 }
