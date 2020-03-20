@@ -2,8 +2,10 @@ package CA4006;
 import java.util.Random;
 
 public class Generator {
-	private static final Integer maxAircraft = 100;
+	private static final Integer maxAircraft = 2;
 	private static final Integer maxRobot = 10;
+	private static final Integer maxValue = 20;
+	private static final Integer maxCapacity = 100;
 	private static Long startTime = System.currentTimeMillis();
 	
 	
@@ -17,15 +19,23 @@ public class Generator {
 	}
 
 	public static Integer generateID() {
+		return generateRandomNumber();
+	}
+	
+	public static Integer generateRobotID() {
+		return generateRandomNumber(maxRobot);
+	}
+	
+	public static Integer generateAircraftID() {
 		return generateRandomNumber(maxAircraft);
 	}
 	
 	public static Integer generateCapacity() {
-		return generateRandomNumber();		
+		return generateRandomNumber(maxCapacity);		
 	}
 	
 	public static Integer generateNumParts() {
-		return generateRandomNumber();
+		return generateRandomNumber(maxValue);
 	}
 	
 	public static Integer generateTime() {

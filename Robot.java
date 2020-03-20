@@ -30,6 +30,8 @@ public class Robot implements  Runnable{
 		return capacity;
 	}
 
+	
+	
 	public void run() {
 		System.out.println("Robot name "+this.robotID+" in Thread"+Thread.currentThread().getName());
 	}

@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import CA4006.Generator;
 import CA4006.Aircraft;
 import CA4006.Robot;
+import CA4006.Stored_Supplies;
 
 public class Main {
 	private final static int numAircraft = 2;
@@ -21,6 +22,8 @@ public class Main {
 		}
 		//Aircraft[] aircrafts = new Aircraft[numAircraft];
 		service.execute(new Workplan(20));
+		
+		service.execute(new Stored_Supplies());
 		
 		System.out.println("Thread name "+Thread.currentThread().getName());
 		
