@@ -1,23 +1,43 @@
 package CA4006;
+
 import CA4006.Generator;
 
-public class Robot implements  Runnable{
-	private final int maxCapacity =250;
+public class Robot implements Runnable {
+	private final int maxCapacity = 250;
+	private final int individualCapacity=20;
 	
 	private Integer robotID;
-	private Integer holdingParts;
-	private Integer capacity;
-
+	private Integer holdingParts = 0;
+	private Integer capacity=0;
+	private Integer workingAircraft;
+	
 	public Robot(Integer id) {
-		this.robotID=id;
-	}
-	
-	public Robot(Integer id, int capacity, int holdingParts) {
 		this.robotID = id;
-		this.capacity = capacity;
-		this.holdingParts = holdingParts;
+	}
+
+	public Robot(Integer id, Integer holdingParts, Integer aircraft) {
+		this.robotID = id;
+		if (this.holdingParts!=0) {
+			this.holdingParts+=holdingParts;
+		}else {
+			this.holdingParts = holdingParts;	
+		}
+		if (this.capacity != 0) {
+			this.capacity +=holdingParts*individualCapacity;
+		}else {
+			this.capacity = holdingParts*individualCapacity;	
+		}
+		this.workingAircraft = aircraft;
 	}
 	
+	public void getTask() {
+		
+	}
+	
+	public Integer workingAircraft() {
+		return workingAircraft;
+	}
+
 	public int getMaxCapacity() {
 		return maxCapacity;
 	}
@@ -34,9 +54,9 @@ public class Robot implements  Runnable{
 		return capacity;
 	}
 
-	
 	public void run() {
-		System.out.println("Robot name "+this.robotID+" in Thread"+Thread.currentThread().getName());
+		getTask();
+		System.out.println("Robot name " + this.robotID + " in Thread" + Thread.currentThread().getName());
 	}
 
 }
