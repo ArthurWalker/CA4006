@@ -7,15 +7,15 @@ public class Robot implements  Runnable{
 	private Integer robotID;
 	private Integer holdingParts;
 	private Integer capacity;
+
+	public Robot(Integer id) {
+		this.robotID=id;
+	}
 	
 	public Robot(Integer id, int capacity, int holdingParts) {
 		this.robotID = id;
 		this.capacity = capacity;
 		this.holdingParts = holdingParts;
-	}
-
-	public Robot(Integer id) {
-		this.robotID=id;
 	}
 	
 	public int getMaxCapacity() {

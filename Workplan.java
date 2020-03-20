@@ -14,7 +14,6 @@ public class Workplan implements Runnable {
 	
 	public Workplan(Integer numTask) {
 		int[][] temp = new int[numTask][];
-		this.taskQueue = new ConcurrentLinkedQueue<>();
 		for (int i = 0; i < numTask; i++) {
 			temp[i]= singleTask();	 
 		}

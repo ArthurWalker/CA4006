@@ -23,7 +23,7 @@ public class Main {
 		//Aircraft[] aircrafts = new Aircraft[numAircraft];
 		service.execute(new Workplan(20));
 		
-		service.execute(new Stored_Supplies());
+//		service.execute(new Stored_Supplies());
 		
 		System.out.println("Thread name "+Thread.currentThread().getName());
 		
