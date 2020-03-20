@@ -25,7 +25,7 @@ public class Main {
 			service.execute(new Robot(i));
 		}
 		
-		
+		// Functions allow robots to get tasks from Workplan (Workplan is not a variable, it is a thread). Wait(), notify(), ...
 		
 		// Aircraft[] aircrafts = new Aircraft[numAircraft];
 
