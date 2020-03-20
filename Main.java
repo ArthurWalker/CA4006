@@ -26,7 +26,10 @@ public class Main {
 		}
 		
 		Workplan workplan =new Workplan(10);
+		System.out.println("Initialize plans:");
 		workplan.print();
+		
+		System.out.println("Start assigning Tasks:");
 		
 		for (int i = 0; i < 10; i++) {
 			service.execute(workplan.assignTask());

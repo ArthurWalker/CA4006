@@ -55,13 +55,16 @@ public class Workplan{
 		Integer robotID = Integer.parseInt(temp[0].trim());
 		Integer holdingParts = Integer.parseInt(temp[1].trim())+Integer.parseInt(temp[3].trim());
 		Integer[] workingAircraft= new Integer[] {Integer.parseInt(temp[2].trim()),Integer.parseInt(temp[4].trim())};
+		print();
 		return new Robot(robotID, holdingParts, workingAircraft);
 	}
 	
-	public void print() {
+	public synchronized void print() {
 		ListIterator list_iter = this.queue.listIterator(0);
+		int i = 0;
 		while (list_iter.hasNext()) {
-			System.out.println(list_iter.next());
+			System.out.println(i+": "+list_iter.next());
+			i++;
 		}
 	}
 
