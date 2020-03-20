@@ -21,6 +21,7 @@ public class Main {
 		Workplan workplan =new Workplan(20);
 		service.execute(workplan);
 		
+		
 		for (int i = 0; i < 10; i++) {
 			service.execute(new Robot(i));
 		}
@@ -34,7 +35,6 @@ public class Main {
 		
 		// Functions allow robots to get tasks from Workplan (Workplan is not a variable, it is a thread). Wait(), notify(), ...
 		
-		// Aircraft[] aircrafts = new Aircraft[numAircraft];
 
 		// service.execute(new Stored_Supplies());
 
