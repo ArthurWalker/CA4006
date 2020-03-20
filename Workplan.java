@@ -59,7 +59,7 @@ public class Workplan{
 		Integer robotID = Integer.parseInt(temp[0].trim());
 		int[] holdingParts = new int[] {Integer.parseInt(temp[1].trim()),Integer.parseInt(temp[3].trim())};
 		Integer[] workingAircraft= new Integer[] {Integer.parseInt(temp[2].trim()),Integer.parseInt(temp[4].trim())};
-		System.out.println(size()+" "+isEmpty());
+//		System.out.println(size()+" "+isEmpty());
 		return new Robot(robotID, holdingParts, workingAircraft);
 	}
 	
