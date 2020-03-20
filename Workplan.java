@@ -3,7 +3,8 @@ package CA4006;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.LinkedList; 
+import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Queue;
 
 import CA4006.Generator;
@@ -13,7 +14,6 @@ import java.util.LinkedList;
 
 public class Workplan implements Runnable {
     private LinkedList queue = new LinkedList();
-	private int[][] tasks;
 	private Integer numTask;
 	
 	public Workplan(Integer numTask) {
@@ -21,9 +21,6 @@ public class Workplan implements Runnable {
 		generateTask();
 	}
 
-	public int[][] getTasks() {
-		return tasks;
-	}
 
 	public int[] singleTask() {
 		int[] arr = new int[3];
@@ -34,12 +31,9 @@ public class Workplan implements Runnable {
 	}
 
 	public void generateTask() {
-		int[][] temp = new int[numTask][];
 		for (int i = 0; i < numTask; i++) {
-			temp[i] = singleTask();
-			enqueue(temp[i]);
+			enqueue(Arrays.toString(singleTask()));
 		}
-		this.tasks = temp;
 	}
 	
 	public void enqueue(Object arr) {
@@ -55,7 +49,10 @@ public class Workplan implements Runnable {
 	}
 	
 	public void run() {
-		System.out.println(this.queue);
+		ListIterator list_iter = this.queue.listIterator(0);
+		while (list_iter.hasNext()) {
+			System.out.println(list_iter.next());
+		}
 		System.out.println("This is workplan in Thread " + Thread.currentThread().getName());
 	}
 
