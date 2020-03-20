@@ -5,11 +5,11 @@ import java.util.Arrays;
 import CA4006.Generator;
 
 public class Robot implements Runnable {
-	private final int maxCapacity = 250;
+	private final int maxCapacity = 400;
 	private final int individualCapacity=20;
 	
 	private Integer robotID;
-	private Integer holdingParts = 0;
+	private int[] holdingParts;
 	private Integer capacity=0;
 	private Integer[] workingAircraft;
 	private Workplan workplan;
@@ -19,24 +19,18 @@ public class Robot implements Runnable {
 		this.workplan = workplan;
 	}
 	
-	public Robot(Integer id, Integer holdingParts, Integer[] aircraft) {
+	public Robot(Integer id, int[] holdingParts, Integer[] aircraft) {
 		this.robotID = id;
-		if (this.holdingParts!=0) {
-			this.holdingParts+=holdingParts;
-		}else {
-			this.holdingParts = holdingParts;	
-		}
-		if (this.capacity != 0) {
-			this.capacity +=holdingParts*individualCapacity;
-		}else {
-			this.capacity = holdingParts*individualCapacity;	
-		}
 		if (aircraft[0]==aircraft[1]) {
-			this.workingAircraft = new Integer[] {aircraft[0]};		
+			this.workingAircraft = new Integer[] {aircraft[0]};
+			int temp =holdingParts[0]+holdingParts[1];
+			this.holdingParts = new int[] {temp};
 		}
 		else {
+			this.holdingParts =  holdingParts;
 			this.workingAircraft= aircraft;
 		}
+		this.capacity = Arrays.stream(this.holdingParts).sum()*individualCapacity;
 	}
 	
 	public Integer[] workingAircraft() {
@@ -51,7 +45,7 @@ public class Robot implements Runnable {
 		return robotID;
 	}
 
-	public Integer getHoldingParts() {
+	public int[] getHoldingParts() {
 		return holdingParts;
 	}
 
@@ -60,7 +54,7 @@ public class Robot implements Runnable {
 	}
 
 	public void run() {
-		System.out.println("Robot " + this.robotID + " in Thread" + Thread.currentThread().getName()+". It has "+this.holdingParts+" parts of aircraft "+Arrays.toString(this.workingAircraft));		
+		System.out.println("Robot " + this.robotID + " in Thread" + Thread.currentThread().getName()+". It has "+Arrays.toString(this.holdingParts)+" parts of aircraft "+Arrays.toString(this.workingAircraft)+" with capacity of "+this.capacity);		
 	}
 
 }
