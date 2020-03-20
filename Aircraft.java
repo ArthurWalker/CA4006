@@ -15,10 +15,10 @@ public class Aircraft implements Runnable {
 	private Integer arrivalRobot;
 	private boolean[] productionLine;
 
-	public Aircraft(boolean[] occupiedRobot) {
+	public Aircraft(int robotID) {
 		this.aircraftID = Generator.generateAircraftID();
 		this.arrivalTime = Generator.generateArrivalTime();
-		this.arrivalRobot = Generator.generateRobot(occupiedRobot);
+		this.arrivalRobot = robotID;
 		boolean[] temp;
 		temp = new boolean[] { false, false, false, false, false, false, false, false, false, false };
 		temp[this.arrivalRobot] = true;
@@ -42,6 +42,7 @@ public class Aircraft implements Runnable {
 	}
 
 	public void run() {
+		System.out.println("ID:"+this.aircraftID+" ArrivalTime: "+this.arrivalTime+" ArrivalRobot: "+this.arrivalRobot);
 		System.out.println("Aircraft " + this.aircraftID + " in Thread" + Thread.currentThread().getName());
 	}
 

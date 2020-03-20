@@ -25,6 +25,13 @@ public class Main {
 			service.execute(new Robot(i));
 		}
 		
+		for (int i = 1; i <= numAircraft; i++) {
+			int temp = Generator.generateRandomNumber(10);
+			Aircraft aircraft = new Aircraft(temp);
+			service.execute(aircraft);
+		}
+		
+		
 		// Functions allow robots to get tasks from Workplan (Workplan is not a variable, it is a thread). Wait(), notify(), ...
 		
 		// Aircraft[] aircrafts = new Aircraft[numAircraft];
