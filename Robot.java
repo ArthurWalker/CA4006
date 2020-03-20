@@ -1,5 +1,7 @@
 package CA4006;
 
+import java.util.Arrays;
+
 import CA4006.Generator;
 
 public class Robot implements Runnable {
@@ -9,13 +11,15 @@ public class Robot implements Runnable {
 	private Integer robotID;
 	private Integer holdingParts = 0;
 	private Integer capacity=0;
-	private Integer workingAircraft;
+	private Integer[] workingAircraft;
+	private Workplan workplan;
 	
-	public Robot(Integer id) {
+	public Robot(Integer id,Workplan workplan) {
 		this.robotID = id;
+		this.workplan = workplan;
 	}
-
-	public Robot(Integer id, Integer holdingParts, Integer aircraft) {
+	
+	public Robot(Integer id, Integer holdingParts, Integer[] aircraft) {
 		this.robotID = id;
 		if (this.holdingParts!=0) {
 			this.holdingParts+=holdingParts;
@@ -27,14 +31,15 @@ public class Robot implements Runnable {
 		}else {
 			this.capacity = holdingParts*individualCapacity;	
 		}
-		this.workingAircraft = aircraft;
+		if (aircraft[0]==aircraft[1]) {
+			this.workingAircraft = new Integer[] {aircraft[0]};		
+		}
+		else {
+			this.workingAircraft= aircraft;
+		}
 	}
 	
-	public void getTask() {
-		
-	}
-	
-	public Integer workingAircraft() {
+	public Integer[] workingAircraft() {
 		return workingAircraft;
 	}
 
@@ -55,8 +60,7 @@ public class Robot implements Runnable {
 	}
 
 	public void run() {
-		getTask();
-		System.out.println("Robot name " + this.robotID + " in Thread" + Thread.currentThread().getName());
+		System.out.println("Robot " + this.robotID + " in Thread" + Thread.currentThread().getName()+". It has "+this.holdingParts+" parts of aircraft "+Arrays.toString(this.workingAircraft));		
 	}
 
 }

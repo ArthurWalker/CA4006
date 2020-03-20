@@ -12,7 +12,7 @@ import CA4006.Generator;
 import java.util.LinkedList;
 
 
-public class Workplan implements Runnable {
+public class Workplan{
     private LinkedList queue = new LinkedList();
 	private Integer numTask;
 	
@@ -21,18 +21,19 @@ public class Workplan implements Runnable {
 		generateTask();
 	}
 
-
-	public int[] singleTask() {
-		int[] arr = new int[3];
-		arr[0] = Generator.generateRobotID();
+	public int[] singleTask(int id) {
+		int[] arr = new int[5];
+		arr[0] = id;
 		arr[1] = Generator.generateNumParts();
 		arr[2] = Generator.generateAircraftID();
+		arr[3] = Generator.generateNumParts();
+		arr[4] = Generator.generateAircraftID();
 		return arr;
 	}
 
 	public void generateTask() {
-		for (int i = 0; i < numTask; i++) {
-			enqueue(Arrays.toString(singleTask()));
+		for (int i = 1; i <= numTask; i++) {
+			enqueue(Arrays.toString(singleTask(i)));
 		}
 	}
 	
@@ -47,13 +48,21 @@ public class Workplan implements Runnable {
 	public boolean isEmpty() {
 		return queue.isEmpty();
 	}
+
+	public synchronized Robot assignTask() {
+		String request = dequeue().toString();
+		String[] temp = request.substring(1,request.length()-1).split(",");
+		Integer robotID = Integer.parseInt(temp[0].trim());
+		Integer holdingParts = Integer.parseInt(temp[1].trim())+Integer.parseInt(temp[3].trim());
+		Integer[] workingAircraft= new Integer[] {Integer.parseInt(temp[2].trim()),Integer.parseInt(temp[4].trim())};
+		return new Robot(robotID, holdingParts, workingAircraft);
+	}
 	
-	public void run() {
+	public void print() {
 		ListIterator list_iter = this.queue.listIterator(0);
 		while (list_iter.hasNext()) {
 			System.out.println(list_iter.next());
 		}
-		System.out.println("This is workplan in Thread " + Thread.currentThread().getName());
 	}
 
 }
