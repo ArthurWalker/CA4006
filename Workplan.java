@@ -48,18 +48,22 @@ public class Workplan{
 	public boolean isEmpty() {
 		return queue.isEmpty();
 	}
+	
+	public Integer size() {
+		return queue.size();
+	}
 
 	public synchronized Robot assignTask() {
 		String request = dequeue().toString();
 		String[] temp = request.substring(1,request.length()-1).split(",");
 		Integer robotID = Integer.parseInt(temp[0].trim());
-		Integer holdingParts = Integer.parseInt(temp[1].trim())+Integer.parseInt(temp[3].trim());
+		int[] holdingParts = new int[] {Integer.parseInt(temp[1].trim()),Integer.parseInt(temp[3].trim())};
 		Integer[] workingAircraft= new Integer[] {Integer.parseInt(temp[2].trim()),Integer.parseInt(temp[4].trim())};
-		print();
+		System.out.println(size()+" "+isEmpty());
 		return new Robot(robotID, holdingParts, workingAircraft);
 	}
 	
-	public synchronized void print() {
+	public void print() {
 		ListIterator list_iter = this.queue.listIterator(0);
 		int i = 0;
 		while (list_iter.hasNext()) {
