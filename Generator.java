@@ -6,7 +6,6 @@ public class Generator {
 	private static final Integer maxAircraft = 2;
 	private static final Integer maxRobot = 10;
 	private static final Integer maxValue = 20;
-	private static final Integer maxCapacity = 100;
 	private static Long startTime = System.currentTimeMillis();
 
 	// Used to generate random values for Aircraft ID, number of parts, capacity of
@@ -29,10 +28,6 @@ public class Generator {
 
 	public static Integer generateAircraftID() {
 		return generateRandomNumber(maxAircraft);
-	}
-
-	public static Integer generateCapacity() {
-		return generateRandomNumber(maxCapacity);
 	}
 
 	public static Integer generateNumParts() {
