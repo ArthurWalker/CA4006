@@ -76,13 +76,13 @@ public class Robot implements Runnable {
 		}
 	}
 	
-	public void print() {
+	public synchronized void print() {
 		System.out.println("Robot " + getRobotID() + " in Thread" + Thread.currentThread().getName() + ". It has "
 				+ Arrays.toString(getHoldingParts()) + " parts of aircraft " + Arrays.toString(getAircraftTask())
 				+ " with capacity of " + getCapacity());
 	}
 	
-	public void run() {
+	public synchronized void run() {
 		print();
 		try {
 			installation();
