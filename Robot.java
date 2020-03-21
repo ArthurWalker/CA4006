@@ -32,8 +32,8 @@ public class Robot implements Runnable {
 				this.holdingParts  = new int[] {temp,0};
 			}
 		} else {
-			if (holdingParts[0]==2) {
-				holdingParts = new int[] {holdingParts[1],holdingParts[0]};
+			if (aircraftTask[0]==2) {
+				aircraftTask = new Integer[] {aircraftTask[1],aircraftTask[0]};
 			}
 			this.holdingParts = holdingParts;
 			this.aircraftTask = aircraftTask;
@@ -71,14 +71,19 @@ public class Robot implements Runnable {
 	}
 	
 	public synchronized void installation() throws InterruptedException {
-		getAircraftList()[0].workingRobot(this);
-		wait();
+		if (getAircraftTask()[0]==1) {
+			getAircraftList()[0].workingRobot(this);
+		}
 	}
 	
-	public void run() {
+	public void print() {
 		System.out.println("Robot " + getRobotID() + " in Thread" + Thread.currentThread().getName() + ". It has "
 				+ Arrays.toString(getHoldingParts()) + " parts of aircraft " + Arrays.toString(getAircraftTask())
 				+ " with capacity of " + getCapacity());
+	}
+	
+	public void run() {
+		print();
 		try {
 			installation();
 		} catch (InterruptedException e) {

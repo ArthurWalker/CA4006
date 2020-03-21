@@ -29,6 +29,10 @@ public class Aircraft implements Runnable {
 		return aircraftID;
 	}
 
+	public void setArrivalRobot(Integer arrivalRobot) {
+		this.arrivalRobot = arrivalRobot;
+	}
+
 	public Integer getArrivalTime() {
 		return arrivalTime;
 	}
@@ -43,7 +47,7 @@ public class Aircraft implements Runnable {
 	
 	public void ArrivingGoingFromTo(Integer arrivalRobotID, Integer destinationRobotID) {
 		this.arrivalTime = Generator.generateArrivalTime();
-		this.arrivalRobot = destinationRobotID;
+		setArrivalRobot(destinationRobotID);
 		this.recordedRobot[destinationRobotID-1]=true;
 	}
 	
@@ -56,29 +60,30 @@ public class Aircraft implements Runnable {
 	}
 
 	public synchronized void workingRobot(Robot robot) {
-		this.lock = checkLock(robot);
+//		if (this.lock==false) {
+//			if (getRecordedRobot()[robot.getRobotID()-1]==false) {
+//				nextTask(robot.getRobotID());	
+//			}
+//		}
+//		this.lock = checkLock(robot);
 		while (this.lock) {
 			try {
 				int time = robot.getHoldingParts()[getAircraftID()-1]*robot.getTimeWorkPart(); 
-				System.out.println(time);
+				System.out.println(robot.getRobotID()+" takes "+time+" miliseconds");
 				Thread.sleep(time);
 				this.lock = false;
+				wait();
 			}catch (Exception e) {
 				// TODO: handle exception
 				Thread.currentThread().interrupt();
 				System.out.println("Thread Interrupt: "+e);
 			}
 		}
-		if (this.lock == false) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		this.lock = false;
+		this.lock = true;
 		notifyAll();
+		if (getRecordedRobot()[robot.getRobotID()-1]==false) {
+			nextTask(robot.getRobotID());	
+		}
 	}
 	
 	public void print() {
@@ -86,12 +91,25 @@ public class Aircraft implements Runnable {
 				"ID:" + getAircraftID() + " ArrivalTime: " + getArrivalTime() + " ArrivalRobot: " + getArrivalRobot()+" in Thread " + Thread.currentThread().getName());
 	}
 	
-	public void run() {
-		int temp = Generator.generateRandomNumber(10)-1;
-		while (getRecordedRobot()[temp]==true) {
-			temp = Generator.generateRandomNumber(10)-1;
+	public synchronized void nextTask(Integer nextRobotID) {
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		ArrivingGoingFromTo(arrivalRobot, temp+1);
+		try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Previous RobotID: "+arrivalRobot+", Next RobotID: "+nextRobotID);
+		ArrivingGoingFromTo(arrivalRobot, nextRobotID);
+	}
+	
+	public void run() {
+		
 	}
 
 }
