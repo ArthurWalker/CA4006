@@ -1,5 +1,9 @@
 package CA4006;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,13 +22,14 @@ public class Robot implements Runnable {
 	private Aircraft[] aircraftList;
 	public boolean lock = true;
 	public boolean dealingNextAircraft = false;
+	public OutputStream out;
 
 	public Robot(Integer id, Workplan workplan) {
 		this.robotID = id;
 		this.workplan = workplan;
 	}
 
-	public Robot(Integer id, int[] holdingParts, Integer[] aircraftTask, Aircraft[] aircraftList) {
+	public Robot(Integer id, int[] holdingParts, Integer[] aircraftTask, Aircraft[] aircraftList, OutputStream out) {
 		this.robotID = id;
 		if (aircraftTask[0] == aircraftTask[1]) {
 			this.aircraftTask = new Integer[] { aircraftTask[0] };
@@ -43,6 +48,7 @@ public class Robot implements Runnable {
 		}
 		this.capacity = Arrays.stream(this.holdingParts).sum();
 		this.aircraftList = aircraftList;
+		this.out = out;
 	}
 
 	public Integer[] getAircraftTask() {
@@ -92,7 +98,14 @@ public class Robot implements Runnable {
 	public synchronized void workingAircraft(Aircraft aircraft) throws InterruptedException {
 		if (getHoldingParts()[aircraft.getAircraftID() - 1] > 0) {
 			if (aircraft.checkLock(this)) {
-				System.out.println("Waiting " + aircraft.getArrivalTime() + " for Aircraft" + aircraft.getAircraftID());
+				String text = "Waiting " + aircraft.getArrivalTime() + " for Aircraft " + aircraft.getAircraftID();
+				try {
+					this.out.write((text + "\n").getBytes(UTF_8));
+					this.out.flush();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				System.out.println(text);
 				Thread.sleep(aircraft.getArrivalTime());
 				aircraft.lock = true;
 				aircraft.workingRobot(this);
@@ -136,9 +149,16 @@ public class Robot implements Runnable {
 	}
 
 	public synchronized void print() {
-		System.out.println("Robot " + getRobotID() + " in Thread" + Thread.currentThread().getName() + ". It has "
+		String text = "Robot " + getRobotID() + " in Thread" + Thread.currentThread().getName() + ". It has "
 				+ Arrays.toString(getHoldingParts()) + " parts of aircraft " + Arrays.toString(getAircraftTask())
-				+ " with total parts of " + getCapacity() + ". It has the maximum capacity of " + getMaxCapacity());
+				+ " with total parts of " + getCapacity() + ". It has the maximum capacity of " + getMaxCapacity();
+		try {
+			this.out.write((text + "\n").getBytes(UTF_8));
+			this.out.flush();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		System.out.println(text);
 	}
 
 	public synchronized void run() {
