@@ -72,26 +72,24 @@ public class Robot implements Runnable {
 	}
 
 	public synchronized Aircraft whichSooner(Aircraft[] aircrafts) {
-		if (aircrafts[0].getArrivalTime()<= aircrafts[1].getArrivalTime()) {
+		if (aircrafts[0].getArrivalTime() <= aircrafts[1].getArrivalTime()) {
 			return aircrafts[0];
-		}
-		else {
+		} else {
 			return aircrafts[1];
 		}
 	}
-	
+
 	public synchronized Aircraft whichLater(Aircraft[] aircrafts) {
-		if (aircrafts[0].getArrivalTime()<= aircrafts[1].getArrivalTime()) {
+		if (aircrafts[0].getArrivalTime() <= aircrafts[1].getArrivalTime()) {
 			return aircrafts[1];
-		}
-		else {
+		} else {
 			return aircrafts[0];
 		}
 	}
-	
+
 	public synchronized void installation() throws InterruptedException {
 		Aircraft aircraftSooner = whichSooner(getAircraftList());
-		if (getHoldingParts()[aircraftSooner.getAircraftID()-1]>0) {
+		if (getHoldingParts()[aircraftSooner.getAircraftID() - 1] > 0) {
 			if (aircraftSooner.checkLock(this)) {
 				Thread.sleep(aircraftSooner.getArrivalTime());
 				aircraftSooner.lock = true;
@@ -101,22 +99,22 @@ public class Robot implements Runnable {
 					aircraftSooner.wait();
 				}
 				aircraftSooner.nextTask(this);
-			}	
+			}
 		}
-		
-//		Aircraft aircraftLater = whichLater(getAircraftList());
-//		if (getHoldingParts()[aircraftLater.getAircraftID()-1]>0) {
-//			if (aircraftLater.checkLock(this)) {
-//				Thread.sleep(aircraftLater.getArrivalTime());
-//				aircraftLater.lock = true;
-//				aircraftLater.workingRobot(this);
-//			} else {
-//				synchronized (aircraftLater) {
-//					aircraftLater.wait();
-//				}
-//				aircraftLater.nextTask(this);
-//			}	
-//		}		
+
+		// Aircraft aircraftLater = whichLater(getAircraftList());
+		// if (getHoldingParts()[aircraftLater.getAircraftID()-1]>0) {
+		// if (aircraftLater.checkLock(this)) {
+		// Thread.sleep(aircraftLater.getArrivalTime());
+		// aircraftLater.lock = true;
+		// aircraftLater.workingRobot(this);
+		// } else {
+		// synchronized (aircraftLater) {
+		// aircraftLater.wait();
+		// }
+		// aircraftLater.nextTask(this);
+		// }
+		// }
 	}
 
 	public synchronized void print() {

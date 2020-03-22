@@ -95,8 +95,9 @@ public class Aircraft implements Runnable {
 				}
 				setProcessingTime(time);
 				setFinishedTime(getArrivalTime() + getProcessingTime());
-				System.out.println("Aircraft "+getAircraftID()+" - Finish current RobotID: " + getArrivalRobot() + " in " + getProcessingTime()
-						+ " at " + getFinishedTime() + " in Thread " + Thread.currentThread().getName());
+				System.out.println("Aircraft " + getAircraftID() + " - Finish current RobotID: " + getArrivalRobot()
+						+ " in " + getProcessingTime() + " at " + getFinishedTime() + " in Thread "
+						+ Thread.currentThread().getName());
 				this.lock = false;
 			} catch (Exception e) {
 				Thread.currentThread().interrupt();
@@ -120,8 +121,8 @@ public class Aircraft implements Runnable {
 				e.printStackTrace();
 			}
 			setArrivalTime(getFinishedTime() + 100);
-			System.out.println("Aircraft "+getAircraftID()+" - Execute with next RobotID: " + nextRobotID + " at " + getArrivalTime() + " in Thread "
-					+ Thread.currentThread().getName());
+			System.out.println("Aircraft " + getAircraftID() + " - Execute with next RobotID: " + nextRobotID + " at "
+					+ getArrivalTime() + " in Thread " + Thread.currentThread().getName());
 			ArrivingGoingFromTo(arrivalRobot, nextRobotID);
 			try {
 				workingRobot(nextRobot);
