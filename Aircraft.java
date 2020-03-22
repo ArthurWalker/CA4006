@@ -126,7 +126,7 @@ public class Aircraft implements Runnable {
 				setArrivalTime(getArrivalTime()+loadingParts*100);
 				System.out.println("Aircraft " + getAircraftID() + " - Waiting "+loadingParts*100+" to load "+loadingParts+" parts then Execute with next RobotID: " + nextRobotID + " at "
 						+ getArrivalTime() + " in Thread " + Thread.currentThread().getName());
-			}else if (loadingParts == 0) {
+			}else if (loadingParts == 0 || nextRobot.dealingNextAircraft==false) {
 				System.out.println("Aircraft " + getAircraftID() + " - Execute with next RobotID: " + nextRobotID + " at "
 						+ getArrivalTime() + " in Thread " + Thread.currentThread().getName());
 			}
