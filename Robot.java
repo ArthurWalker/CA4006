@@ -91,6 +91,7 @@ public class Robot implements Runnable {
 	public synchronized void workingAircraft(Aircraft aircraft) throws InterruptedException {
 		if (getHoldingParts()[aircraft.getAircraftID() - 1] > 0) {
 			if (aircraft.checkLock(this)) {
+				System.out.println("Waiting "+aircraft.getArrivalTime()+" for Aircraft"+aircraft.getAircraftID());
 				Thread.sleep(aircraft.getArrivalTime());
 				aircraft.lock = true;
 				aircraft.workingRobot(this);
