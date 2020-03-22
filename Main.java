@@ -22,6 +22,7 @@ public class Main {
 	private final static int numRobot = 10;
 
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
+		// Create output.dat to store output
 		String string2 = "output.dat";
 		File outFile = new File(string2);
 		try {
@@ -31,11 +32,15 @@ public class Main {
 		}
 		OutputStream out = new FileOutputStream(outFile);
 
+		
+		// Create a pool to manage Threads. Although we are using 12 threads but we just created with 15 threads
 		ExecutorService service = Executors.newFixedThreadPool(15);
 
+		// Create workplan with 10 requests for 10 robots
 		Workplan workplan = new Workplan(numRobot);
 
-		Aircraft[] aircraft = new Aircraft[2];
+		// Create 2 aircrafts with random arrival robot ID
+		Aircraft[] aircraft = new Aircraft[numAircraft];
 		for (int i = 0; i < numAircraft; i++) {
 			Integer temp = Generator.generateRandomNumber(10);
 			try {
@@ -46,6 +51,7 @@ public class Main {
 			}
 		}
 
+		// Each thread of robot will go into to the workplan to get the task.
 		System.out.println("Start assigning Tasks:");
 
 		for (int i = 0; i < numRobot; i++) {
