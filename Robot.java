@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import CA4006.Generator;
 
 public class Robot implements Runnable {
-	private final int maxCapacity = 35;
+	private final int maxCapacity = 25;
 	private final int timeWorkPart = 100;
 
 	private Integer robotID;
@@ -17,7 +17,7 @@ public class Robot implements Runnable {
 	private Workplan workplan;
 	private Aircraft[] aircraftList;
 	public boolean lock = true;
-
+	public boolean dealingNextAircraft = false;
 	public Robot(Integer id, Workplan workplan) {
 		this.robotID = id;
 		this.workplan = workplan;
@@ -48,7 +48,7 @@ public class Robot implements Runnable {
 		return aircraftTask;
 	}
 
-	public int getMaxCapacity() {
+	public synchronized int getMaxCapacity() {
 		return maxCapacity;
 	}
 
@@ -106,6 +106,7 @@ public class Robot implements Runnable {
 	public synchronized void installation() throws InterruptedException {
 		Aircraft aircraftSooner = whichSooner(getAircraftList());
 		Aircraft aircraftLater = whichLater(getAircraftList());
+
 		if (this.lock) {
 			while (this.lock) {
 				this.lock = false;
@@ -123,9 +124,12 @@ public class Robot implements Runnable {
 		}
 		this.lock = true;
 		this.notifyAll();
+
 		while (this.lock) {
 			this.lock = false;
+			this.dealingNextAircraft = true;
 			workingAircraft(aircraftLater);
+			this.dealingNextAircraft = false;
 		}
 	}
 
