@@ -137,7 +137,7 @@ public class Robot implements Runnable {
 	public synchronized void print() {
 		System.out.println("Robot " + getRobotID() + " in Thread" + Thread.currentThread().getName() + ". It has "
 				+ Arrays.toString(getHoldingParts()) + " parts of aircraft " + Arrays.toString(getAircraftTask())
-				+ " with capacity of " + getCapacity());
+				+ " with total parts of " + getCapacity()+". It has the maximum capacity of "+getMaxCapacity());
 	}
 
 	public synchronized void run() {
