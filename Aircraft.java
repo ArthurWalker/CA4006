@@ -85,11 +85,7 @@ public class Aircraft implements Runnable {
 	public synchronized void workingRobot(Robot robot) throws InterruptedException {
 		while (this.lock) {
 			try {
-				// System.out.println("Parts: "+robot.getHoldingParts()[getAircraftID()-1]);
-				// System.out.println("Parts: "+robot.getHoldingParts()[0]);
-				// System.out.println("Time per part: "+robot.getTimeWorkPart());
 				int time = robot.getHoldingParts()[getAircraftID() - 1] * robot.getTimeWorkPart();
-				// System.out.println("Total time: "+time);
 				if (time > 0) {
 					Thread.sleep(time);
 				}
@@ -105,19 +101,15 @@ public class Aircraft implements Runnable {
 			}
 		}
 		this.lock = true;
-		notifyAll();
+		this.notifyAll();	
 	}
 
 	public synchronized void nextTask(Robot nextRobot) {
-		// System.out.println(Thread.currentThread().getName()+"
-		// "+Thread.currentThread().getState());
-		// System.out.println(nextRobot.getRobotID());
 		if (getRecordedRobot()[nextRobot.getRobotID() - 1] == false) {
 			Integer nextRobotID = nextRobot.getRobotID();
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			setArrivalTime(getFinishedTime() + 100);
@@ -127,7 +119,6 @@ public class Aircraft implements Runnable {
 			try {
 				workingRobot(nextRobot);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

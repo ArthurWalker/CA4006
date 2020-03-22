@@ -24,9 +24,15 @@ public class Workplan {
 		int[] arr = new int[5];
 		arr[0] = id;
 		arr[1] = Generator.generateNumParts();
-		arr[2] = Generator.generateAircraftID();
+		while (arr[1]==0) {
+			arr[1] = Generator.generateNumParts();	
+		}
+		arr[2] = 1;
 		arr[3] = Generator.generateNumParts();
-		arr[4] = Generator.generateAircraftID();
+		while (arr[3]==0) {
+			arr[3] = Generator.generateNumParts();
+		}
+		arr[4] = 2;
 		return arr;
 	}
 
