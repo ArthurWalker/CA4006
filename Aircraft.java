@@ -3,6 +3,11 @@
  */
 package CA4006;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 
 /**
@@ -20,12 +25,14 @@ public class Aircraft implements Runnable {
 	public boolean lock = false;
 	public boolean[] recordedRobot = new boolean[] { false, false, false, false, false, false, false, false, false,
 			false };
+	public OutputStream out;
 
-	public Aircraft(int aircraftID, Integer robotID) {
+	public Aircraft(int aircraftID, Integer robotID, OutputStream out) {
 		this.aircraftID = aircraftID;
 		this.arrivalTime = Generator.generateArrivalTime() * 1000;
 		this.arrivalRobot = robotID;
 		this.recordedRobot[robotID - 1] = true;
+		this.out = out;
 	}
 
 	public synchronized Integer getFinishedTime() {
@@ -91,9 +98,16 @@ public class Aircraft implements Runnable {
 				}
 				setProcessingTime(time);
 				setFinishedTime(getArrivalTime() + getProcessingTime());
-				System.out.println("Aircraft " + getAircraftID() + " - Finish current RobotID: " + getArrivalRobot()
-						+ " in " + getProcessingTime() + " at " + getFinishedTime() + " in Thread "
-						+ Thread.currentThread().getName());
+				String text = "Aircraft " + getAircraftID() + " - Finish current RobotID: " + getArrivalRobot() + " in "
+						+ getProcessingTime() + " at " + getFinishedTime() + " in Thread "
+						+ Thread.currentThread().getName();
+				try {
+					this.out.write((text + "\n").getBytes(UTF_8));
+					this.out.flush();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				System.out.println(text);
 				this.lock = false;
 			} catch (Exception e) {
 				Thread.currentThread().interrupt();
@@ -117,6 +131,7 @@ public class Aircraft implements Runnable {
 			if (nextRobot.getCapacity() > nextRobot.getMaxCapacity()) {
 				loadingParts = (nextRobot.getCapacity() - nextRobot.getMaxCapacity());
 			}
+			String text;
 			if (loadingParts > 0 && nextRobot.dealingNextAircraft) {
 				try {
 					Thread.sleep(loadingParts * 100);
@@ -124,10 +139,27 @@ public class Aircraft implements Runnable {
 					e.printStackTrace();
 				}
 				setArrivalTime(getArrivalTime() + loadingParts * 100);
+				text = "Aircraft " + getAircraftID() + " - Waiting " + loadingParts * 100 + " to load " + loadingParts
+						+ " parts then Execute with next RobotID: " + nextRobotID + " at " + getArrivalTime()
+						+ " in Thread " + Thread.currentThread().getName();
+				try {
+					this.out.write((text + "\n").getBytes(UTF_8));
+					this.out.flush();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				System.out.println("Aircraft " + getAircraftID() + " - Waiting " + loadingParts * 100 + " to load "
 						+ loadingParts + " parts then Execute with next RobotID: " + nextRobotID + " at "
 						+ getArrivalTime() + " in Thread " + Thread.currentThread().getName());
 			} else if (loadingParts == 0 || nextRobot.dealingNextAircraft == false) {
+				text = "Aircraft " + getAircraftID() + " - Execute with next RobotID: " + nextRobotID + " at "
+						+ getArrivalTime() + " in Thread " + Thread.currentThread().getName();
+				try {
+					this.out.write((text + "\n").getBytes(UTF_8));
+					this.out.flush();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				System.out.println("Aircraft " + getAircraftID() + " - Execute with next RobotID: " + nextRobotID
 						+ " at " + getArrivalTime() + " in Thread " + Thread.currentThread().getName());
 			}
@@ -141,9 +173,16 @@ public class Aircraft implements Runnable {
 		}
 	}
 
-	public synchronized void print() {
-		System.out.println("ID:" + getAircraftID() + " ArrivalTime: " + getArrivalTime() + " ArrivalRobot: "
-				+ getArrivalRobot() + " in Thread " + Thread.currentThread().getName());
+	public synchronized void print(OutputStream out) {
+		String text = "ID:" + getAircraftID() + " ArrivalTime: " + getArrivalTime() + " ArrivalRobot: "
+				+ getArrivalRobot() + " in Thread " + Thread.currentThread().getName();
+		try {
+			out.write(text.getBytes(UTF_8));
+			out.flush();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		System.out.println(text);
 	}
 
 	public void run() {
