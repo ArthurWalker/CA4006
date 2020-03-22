@@ -18,6 +18,7 @@ public class Robot implements Runnable {
 	private Aircraft[] aircraftList;
 	public boolean lock = true;
 	public boolean dealingNextAircraft = false;
+
 	public Robot(Integer id, Workplan workplan) {
 		this.robotID = id;
 		this.workplan = workplan;
@@ -91,7 +92,7 @@ public class Robot implements Runnable {
 	public synchronized void workingAircraft(Aircraft aircraft) throws InterruptedException {
 		if (getHoldingParts()[aircraft.getAircraftID() - 1] > 0) {
 			if (aircraft.checkLock(this)) {
-				System.out.println("Waiting "+aircraft.getArrivalTime()+" for Aircraft"+aircraft.getAircraftID());
+				System.out.println("Waiting " + aircraft.getArrivalTime() + " for Aircraft" + aircraft.getAircraftID());
 				Thread.sleep(aircraft.getArrivalTime());
 				aircraft.lock = true;
 				aircraft.workingRobot(this);
@@ -103,7 +104,7 @@ public class Robot implements Runnable {
 			}
 		}
 	}
-	
+
 	public synchronized void installation() throws InterruptedException {
 		Aircraft aircraftSooner = whichSooner(getAircraftList());
 		Aircraft aircraftLater = whichLater(getAircraftList());
@@ -117,8 +118,8 @@ public class Robot implements Runnable {
 			synchronized (this) {
 				this.wait();
 			}
-		} 
-		if (this.lock && aircraftLater.getArrivalRobot()!=getRobotID()) {
+		}
+		if (this.lock && aircraftLater.getArrivalRobot() != getRobotID()) {
 			synchronized (this) {
 				this.wait();
 			}
@@ -137,7 +138,7 @@ public class Robot implements Runnable {
 	public synchronized void print() {
 		System.out.println("Robot " + getRobotID() + " in Thread" + Thread.currentThread().getName() + ". It has "
 				+ Arrays.toString(getHoldingParts()) + " parts of aircraft " + Arrays.toString(getAircraftTask())
-				+ " with total parts of " + getCapacity()+". It has the maximum capacity of "+getMaxCapacity());
+				+ " with total parts of " + getCapacity() + ". It has the maximum capacity of " + getMaxCapacity());
 	}
 
 	public synchronized void run() {
