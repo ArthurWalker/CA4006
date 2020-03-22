@@ -71,7 +71,7 @@ public class Robot implements Runnable {
 		return timeWorkPart;
 	}
 
-	public Aircraft whichSooner(Aircraft[] aircrafts) {
+	public synchronized Aircraft whichSooner(Aircraft[] aircrafts) {
 		if (aircrafts[0].getArrivalTime()<= aircrafts[1].getArrivalTime()) {
 			return aircrafts[0];
 		}
@@ -80,47 +80,43 @@ public class Robot implements Runnable {
 		}
 	}
 	
+	public synchronized Aircraft whichLater(Aircraft[] aircrafts) {
+		if (aircrafts[0].getArrivalTime()<= aircrafts[1].getArrivalTime()) {
+			return aircrafts[1];
+		}
+		else {
+			return aircrafts[0];
+		}
+	}
+	
 	public synchronized void installation() throws InterruptedException {
-		Aircraft aircraft = whichSooner(getAircraftList());
-		if (getHoldingParts()[aircraft.getAircraftID()-1]>0) {
-			if (aircraft.checkLock(this)) {
-				Thread.sleep(aircraft.getArrivalTime());
-				aircraft.lock = true;
-				aircraft.workingRobot(this);
+		Aircraft aircraftSooner = whichSooner(getAircraftList());
+		if (getHoldingParts()[aircraftSooner.getAircraftID()-1]>0) {
+			if (aircraftSooner.checkLock(this)) {
+				Thread.sleep(aircraftSooner.getArrivalTime());
+				aircraftSooner.lock = true;
+				aircraftSooner.workingRobot(this);
 			} else {
-				synchronized (aircraft) {
-					aircraft.wait();
+				synchronized (aircraftSooner) {
+					aircraftSooner.wait();
 				}
-				aircraft.nextTask(this);
+				aircraftSooner.nextTask(this);
 			}	
 		}
 		
-// Using Stream to handle Parallel (Still got errors)	
-		
-//		List<Integer> list = Arrays.stream(getAircraftTask()).collect(Collectors.toList());
-//		list.parallelStream().forEach(i ->{
-//			System.out.println("Working with Aircraft: "+i);
-//			if (getAircraftList()[i].checkLock(this)) {
-//				try {
-//					Thread.sleep(getAircraftList()[i].getArrivalTime());
-//					getAircraftList()[i].lock = true;
-//					getAircraftList()[i].workingRobot(this);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+//		Aircraft aircraftLater = whichLater(getAircraftList());
+//		if (getHoldingParts()[aircraftLater.getAircraftID()-1]>0) {
+//			if (aircraftLater.checkLock(this)) {
+//				Thread.sleep(aircraftLater.getArrivalTime());
+//				aircraftLater.lock = true;
+//				aircraftLater.workingRobot(this);
 //			} else {
-//				synchronized (getAircraftList()[i]) {
-//					try {
-//						getAircraftList()[i].wait();
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
+//				synchronized (aircraftLater) {
+//					aircraftLater.wait();
 //				}
-//				getAircraftList()[i].nextTask(this);
-//			}
-//		});
+//				aircraftLater.nextTask(this);
+//			}	
+//		}		
 	}
 
 	public synchronized void print() {
