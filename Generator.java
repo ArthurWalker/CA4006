@@ -39,7 +39,6 @@ public class Generator {
 	}
 
 	public static Integer generateArrivalTime() {
-		// return new Long(System.currentTimeMillis() - startTime).intValue();
 		return generateRandomNumber(maxRobot);
 	}
 

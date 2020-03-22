@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import CA4006.Generator;
 
 public class Robot implements Runnable {
-	private final int maxCapacity = 35;
+	private final int maxCapacity = 25;
 	private final int timeWorkPart = 100;
 
 	private Integer robotID;
@@ -16,7 +16,8 @@ public class Robot implements Runnable {
 	private Integer[] aircraftTask;
 	private Workplan workplan;
 	private Aircraft[] aircraftList;
-
+	public boolean lock = true;
+	public boolean dealingNextAircraft = false;
 	public Robot(Integer id, Workplan workplan) {
 		this.robotID = id;
 		this.workplan = workplan;
@@ -47,7 +48,7 @@ public class Robot implements Runnable {
 		return aircraftTask;
 	}
 
-	public int getMaxCapacity() {
+	public synchronized int getMaxCapacity() {
 		return maxCapacity;
 	}
 
@@ -87,34 +88,49 @@ public class Robot implements Runnable {
 		}
 	}
 
-	public synchronized void installation() throws InterruptedException {
-		Aircraft aircraftSooner = whichSooner(getAircraftList());
-		if (getHoldingParts()[aircraftSooner.getAircraftID() - 1] > 0) {
-			if (aircraftSooner.checkLock(this)) {
-				Thread.sleep(aircraftSooner.getArrivalTime());
-				aircraftSooner.lock = true;
-				aircraftSooner.workingRobot(this);
+	public synchronized void workingAircraft(Aircraft aircraft) throws InterruptedException {
+		if (getHoldingParts()[aircraft.getAircraftID() - 1] > 0) {
+			if (aircraft.checkLock(this)) {
+				Thread.sleep(aircraft.getArrivalTime());
+				aircraft.lock = true;
+				aircraft.workingRobot(this);
 			} else {
-				synchronized (aircraftSooner) {
-					aircraftSooner.wait();
+				synchronized (aircraft) {
+					aircraft.wait();
 				}
-				aircraftSooner.nextTask(this);
+				aircraft.nextTask(this);
 			}
 		}
+	}
+	
+	public synchronized void installation() throws InterruptedException {
+		Aircraft aircraftSooner = whichSooner(getAircraftList());
+		Aircraft aircraftLater = whichLater(getAircraftList());
 
-		// Aircraft aircraftLater = whichLater(getAircraftList());
-		// if (getHoldingParts()[aircraftLater.getAircraftID()-1]>0) {
-		// if (aircraftLater.checkLock(this)) {
-		// Thread.sleep(aircraftLater.getArrivalTime());
-		// aircraftLater.lock = true;
-		// aircraftLater.workingRobot(this);
-		// } else {
-		// synchronized (aircraftLater) {
-		// aircraftLater.wait();
-		// }
-		// aircraftLater.nextTask(this);
-		// }
-		// }
+		if (this.lock) {
+			while (this.lock) {
+				this.lock = false;
+				workingAircraft(aircraftSooner);
+			}
+		} else {
+			synchronized (this) {
+				this.wait();
+			}
+		} 
+		if (this.lock && aircraftLater.getArrivalRobot()!=getRobotID()) {
+			synchronized (this) {
+				this.wait();
+			}
+		}
+		this.lock = true;
+		this.notifyAll();
+
+		while (this.lock) {
+			this.lock = false;
+			this.dealingNextAircraft = true;
+			workingAircraft(aircraftLater);
+			this.dealingNextAircraft = false;
+		}
 	}
 
 	public synchronized void print() {
@@ -128,7 +144,6 @@ public class Robot implements Runnable {
 		try {
 			installation();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

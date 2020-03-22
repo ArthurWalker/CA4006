@@ -15,7 +15,6 @@ public class Main {
 	private final static int numRobot = 10;
 
 	public static void main(String[] args) throws InterruptedException {
-		// TODO Auto-generated method stub
 
 		ExecutorService service = Executors.newFixedThreadPool(15);
 
@@ -28,7 +27,6 @@ public class Main {
 				aircraft[i] = new Aircraft(i + 1, temp);
 				aircraft[i].print();
 			} catch (Exception e) {
-				// TODO: handle exception
 				System.out.println(e);
 			}
 		}

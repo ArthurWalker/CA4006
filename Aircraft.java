@@ -85,19 +85,15 @@ public class Aircraft implements Runnable {
 	public synchronized void workingRobot(Robot robot) throws InterruptedException {
 		while (this.lock) {
 			try {
-				// System.out.println("Parts: "+robot.getHoldingParts()[getAircraftID()-1]);
-				// System.out.println("Parts: "+robot.getHoldingParts()[0]);
-				// System.out.println("Time per part: "+robot.getTimeWorkPart());
 				int time = robot.getHoldingParts()[getAircraftID() - 1] * robot.getTimeWorkPart();
-				// System.out.println("Total time: "+time);
 				if (time > 0) {
 					Thread.sleep(time);
 				}
 				setProcessingTime(time);
 				setFinishedTime(getArrivalTime() + getProcessingTime());
 				System.out.println("Aircraft " + getAircraftID() + " - Finish current RobotID: " + getArrivalRobot()
-						+ " in " + getProcessingTime() + " at " + getFinishedTime() + " in Thread "
-						+ Thread.currentThread().getName());
+				+ " in " + getProcessingTime() + " at " + getFinishedTime() + " in Thread "
+				+ Thread.currentThread().getName());
 				this.lock = false;
 			} catch (Exception e) {
 				Thread.currentThread().interrupt();
@@ -105,29 +101,40 @@ public class Aircraft implements Runnable {
 			}
 		}
 		this.lock = true;
-		notifyAll();
+		this.notifyAll();	
 	}
 
 	public synchronized void nextTask(Robot nextRobot) {
-		// System.out.println(Thread.currentThread().getName()+"
-		// "+Thread.currentThread().getState());
-		// System.out.println(nextRobot.getRobotID());
 		if (getRecordedRobot()[nextRobot.getRobotID() - 1] == false) {
 			Integer nextRobotID = nextRobot.getRobotID();
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			setArrivalTime(getFinishedTime() + 100);
-			System.out.println("Aircraft " + getAircraftID() + " - Execute with next RobotID: " + nextRobotID + " at "
-					+ getArrivalTime() + " in Thread " + Thread.currentThread().getName());
+			int loadingParts = 0; 
+			if (nextRobot.getCapacity()>nextRobot.getMaxCapacity()) {
+				loadingParts = (nextRobot.getCapacity()-nextRobot.getMaxCapacity());
+			}
+			if (loadingParts > 0 && nextRobot.dealingNextAircraft) {
+				try {
+					Thread.sleep(loadingParts*100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				setArrivalTime(getArrivalTime()+loadingParts*100);
+				System.out.println("Aircraft " + getAircraftID() + " - Waiting "+loadingParts*100+" to load "+loadingParts+" parts then Execute with next RobotID: " + nextRobotID + " at "
+						+ getArrivalTime() + " in Thread " + Thread.currentThread().getName());
+			}else if (loadingParts == 0) {
+				System.out.println("Aircraft " + getAircraftID() + " - Execute with next RobotID: " + nextRobotID + " at "
+						+ getArrivalTime() + " in Thread " + Thread.currentThread().getName());
+			}
+			
 			ArrivingGoingFromTo(arrivalRobot, nextRobotID);
 			try {
 				workingRobot(nextRobot);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
