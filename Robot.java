@@ -62,7 +62,7 @@ public class Robot implements Runnable {
 		return capacity;
 	}
 
-	public Aircraft[] getAircraftList() {
+	public synchronized Aircraft[] getAircraftList() {
 		return aircraftList;
 	}
 	
@@ -72,7 +72,17 @@ public class Robot implements Runnable {
 	
 	public synchronized void installation() throws InterruptedException {
 		if (getAircraftTask()[0]==1) {
-			getAircraftList()[0].workingRobot(this);
+			if (getAircraftList()[0].checkLock(this)) {
+				getAircraftList()[0].lock = true;
+				getAircraftList()[0].workingRobot(this);
+			}else {	
+//				System.out.println("Waiting Robot: "+getRobotID());
+				synchronized (getAircraftList()[0]) {
+					getAircraftList()[0].wait();
+				}
+//				System.out.println("Resumed the waiting Robot");
+				getAircraftList()[0].nextTask(this);
+			}
 		}
 	}
 	
@@ -91,5 +101,4 @@ public class Robot implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
 }
