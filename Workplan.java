@@ -13,6 +13,9 @@ import CA4006.Generator;
 import CA4006.Aircraft;
 import CA4006.Robot;
 
+
+// Workplan is a queue of tasks so that robot can get the task belonging to it.
+
 public class Workplan {
 	private LinkedList queue = new LinkedList();
 	private Integer numTask;
