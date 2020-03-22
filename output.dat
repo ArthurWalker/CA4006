@@ -1,0 +1,51 @@
+ID:1 ArrivalTime: 9000 ArrivalRobot: 7 in Thread mainID:2 ArrivalTime: 9000 ArrivalRobot: 10 in Thread mainRobot 1 in Threadpool-1-thread-1. It has [1, 1] parts of aircraft [1, 2] with total parts of 2. It has the maximum capacity of 25
+Robot 2 in Threadpool-1-thread-2. It has [18, 15] parts of aircraft [1, 2] with total parts of 33. It has the maximum capacity of 25
+Robot 3 in Threadpool-1-thread-3. It has [8, 2] parts of aircraft [1, 2] with total parts of 10. It has the maximum capacity of 25
+Robot 4 in Threadpool-1-thread-4. It has [5, 13] parts of aircraft [1, 2] with total parts of 18. It has the maximum capacity of 25
+Robot 5 in Threadpool-1-thread-5. It has [3, 10] parts of aircraft [1, 2] with total parts of 13. It has the maximum capacity of 25
+Robot 6 in Threadpool-1-thread-6. It has [2, 19] parts of aircraft [1, 2] with total parts of 21. It has the maximum capacity of 25
+Robot 8 in Threadpool-1-thread-8. It has [11, 18] parts of aircraft [1, 2] with total parts of 29. It has the maximum capacity of 25
+Robot 9 in Threadpool-1-thread-9. It has [18, 16] parts of aircraft [1, 2] with total parts of 34. It has the maximum capacity of 25
+Robot 7 in Threadpool-1-thread-7. It has [4, 17] parts of aircraft [1, 2] with total parts of 21. It has the maximum capacity of 25
+Robot 10 in Threadpool-1-thread-10. It has [2, 16] parts of aircraft [1, 2] with total parts of 18. It has the maximum capacity of 25
+Waiting 9000 for Aircraft 1
+Aircraft 1 - Finish current RobotID: 7 in 400 at 9400 in Thread pool-1-thread-7
+Aircraft 1 - Execute with next RobotID: 10 at 9500 in Thread pool-1-thread-10
+Aircraft 1 - Finish current RobotID: 10 in 200 at 9700 in Thread pool-1-thread-10
+Waiting 9000 for Aircraft 2
+Aircraft 1 - Execute with next RobotID: 8 at 9800 in Thread pool-1-thread-8
+Aircraft 1 - Finish current RobotID: 8 in 1100 at 10900 in Thread pool-1-thread-8
+Aircraft 1 - Execute with next RobotID: 5 at 11000 in Thread pool-1-thread-5
+Aircraft 1 - Finish current RobotID: 5 in 300 at 11300 in Thread pool-1-thread-5
+Aircraft 1 - Execute with next RobotID: 6 at 11400 in Thread pool-1-thread-6
+Aircraft 1 - Finish current RobotID: 6 in 200 at 11600 in Thread pool-1-thread-6
+Aircraft 1 - Execute with next RobotID: 4 at 11700 in Thread pool-1-thread-4
+Aircraft 1 - Finish current RobotID: 4 in 500 at 12200 in Thread pool-1-thread-4
+Aircraft 1 - Execute with next RobotID: 3 at 12300 in Thread pool-1-thread-3
+Aircraft 1 - Finish current RobotID: 3 in 800 at 13100 in Thread pool-1-thread-3
+Aircraft 1 - Execute with next RobotID: 2 at 13200 in Thread pool-1-thread-2
+Aircraft 1 - Finish current RobotID: 2 in 1800 at 15000 in Thread pool-1-thread-2
+Aircraft 1 - Execute with next RobotID: 1 at 15100 in Thread pool-1-thread-1
+Aircraft 1 - Finish current RobotID: 1 in 100 at 15200 in Thread pool-1-thread-1
+Aircraft 1 - Execute with next RobotID: 9 at 15300 in Thread pool-1-thread-9
+Aircraft 1 - Finish current RobotID: 9 in 1800 at 17100 in Thread pool-1-thread-9
+Aircraft 2 - Finish current RobotID: 10 in 1600 at 10600 in Thread pool-1-thread-10
+Aircraft 2 - Waiting 900 to load 9 parts then Execute with next RobotID: 9 at 11600 in Thread pool-1-thread-9
+Aircraft 2 - Finish current RobotID: 9 in 1600 at 13200 in Thread pool-1-thread-9
+Aircraft 2 - Execute with next RobotID: 1 at 13300 in Thread pool-1-thread-1
+Aircraft 2 - Finish current RobotID: 1 in 100 at 13400 in Thread pool-1-thread-1
+Aircraft 2 - Waiting 800 to load 8 parts then Execute with next RobotID: 2 at 14300 in Thread pool-1-thread-2
+Aircraft 2 - Finish current RobotID: 2 in 1500 at 15800 in Thread pool-1-thread-2
+Aircraft 2 - Execute with next RobotID: 3 at 15900 in Thread pool-1-thread-3
+Aircraft 2 - Finish current RobotID: 3 in 200 at 16100 in Thread pool-1-thread-3
+Aircraft 2 - Execute with next RobotID: 4 at 16200 in Thread pool-1-thread-4
+Aircraft 2 - Finish current RobotID: 4 in 1300 at 17500 in Thread pool-1-thread-4
+Aircraft 2 - Execute with next RobotID: 6 at 17600 in Thread pool-1-thread-6
+Aircraft 2 - Finish current RobotID: 6 in 1900 at 19500 in Thread pool-1-thread-6
+Aircraft 2 - Execute with next RobotID: 5 at 19600 in Thread pool-1-thread-5
+Aircraft 2 - Finish current RobotID: 5 in 1000 at 20600 in Thread pool-1-thread-5
+Aircraft 2 - Waiting 400 to load 4 parts then Execute with next RobotID: 8 at 21100 in Thread pool-1-thread-8
+Aircraft 2 - Finish current RobotID: 8 in 1800 at 22900 in Thread pool-1-thread-8
+Aircraft 2 - Execute with next RobotID: 7 at 23000 in Thread pool-1-thread-7
+Aircraft 2 - Finish current RobotID: 7 in 1700 at 24700 in Thread pool-1-thread-7
+DONE!
