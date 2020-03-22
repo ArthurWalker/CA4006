@@ -10,6 +10,8 @@ import java.util.Queue;
 import java.util.LinkedList;
 
 import CA4006.Generator;
+import CA4006.Aircraft;
+import CA4006.Robot;
 
 public class Workplan {
 	private LinkedList queue = new LinkedList();
