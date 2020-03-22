@@ -1,7 +1,8 @@
 package CA4006;
 
 import java.util.Arrays;
-import java.util.logging.Logger;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import CA4006.Generator;
 
@@ -70,22 +71,56 @@ public class Robot implements Runnable {
 		return timeWorkPart;
 	}
 
-	public synchronized void installation() throws InterruptedException {
-		if (getAircraftTask()[0] == 1) {
-			// if (getHoldingParts()[0]==0) {
-			// System.out.println(getHoldingParts());
-			// }
-			if (getAircraftList()[0].checkLock(this)) {
-				Thread.sleep(getAircraftList()[0].getArrivalTime());
-				getAircraftList()[0].lock = true;
-				getAircraftList()[0].workingRobot(this);
-			} else {
-				synchronized (getAircraftList()[0]) {
-					getAircraftList()[0].wait();
-				}
-				getAircraftList()[0].nextTask(this);
-			}
+	public Aircraft whichSooner(Aircraft[] aircrafts) {
+		if (aircrafts[0].getArrivalTime()<= aircrafts[1].getArrivalTime()) {
+			return aircrafts[0];
 		}
+		else {
+			return aircrafts[1];
+		}
+	}
+	
+	public synchronized void installation() throws InterruptedException {
+		Aircraft aircraft = whichSooner(getAircraftList());
+		if (getHoldingParts()[aircraft.getAircraftID()-1]>0) {
+			if (aircraft.checkLock(this)) {
+				Thread.sleep(aircraft.getArrivalTime());
+				aircraft.lock = true;
+				aircraft.workingRobot(this);
+			} else {
+				synchronized (aircraft) {
+					aircraft.wait();
+				}
+				aircraft.nextTask(this);
+			}	
+		}
+		
+// Using Stream to handle Parallel (Still got errors)	
+		
+//		List<Integer> list = Arrays.stream(getAircraftTask()).collect(Collectors.toList());
+//		list.parallelStream().forEach(i ->{
+//			System.out.println("Working with Aircraft: "+i);
+//			if (getAircraftList()[i].checkLock(this)) {
+//				try {
+//					Thread.sleep(getAircraftList()[i].getArrivalTime());
+//					getAircraftList()[i].lock = true;
+//					getAircraftList()[i].workingRobot(this);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			} else {
+//				synchronized (getAircraftList()[i]) {
+//					try {
+//						getAircraftList()[i].wait();
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//				getAircraftList()[i].nextTask(this);
+//			}
+//		});
 	}
 
 	public synchronized void print() {
