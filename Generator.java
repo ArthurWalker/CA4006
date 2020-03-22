@@ -8,8 +8,6 @@ public class Generator {
 	private static final Integer maxValue = 20;
 	private static Long startTime = System.currentTimeMillis();
 
-	// Used to generate random values for Aircraft ID, number of parts, capacity of
-	// each robot, time and Working RobotID
 	public static Integer generateRandomNumber() {
 		return new Random().nextInt(100) + 1;
 	}

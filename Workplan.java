@@ -6,10 +6,9 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Queue;
+import java.util.LinkedList;
 
 import CA4006.Generator;
-
-import java.util.LinkedList;
 
 public class Workplan {
 	private LinkedList queue = new LinkedList();
